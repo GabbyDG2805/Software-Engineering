@@ -1,0 +1,53 @@
+from newsapi.newsapi_client import NewsApiClient
+import spotipy
+import spotipy.oauth2 as oauth2
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+
+# You will have to download the set of stop words the first time
+import nltk
+#nltk.download('stopwords')
+
+
+#init 
+newsapi = NewsApiClient(api_key='6a4d8068c73d4b6e8dc5f9ed70d34beb')
+
+#Get top news headlines
+data = newsapi.get_top_headlines(sources='bbc-news')
+articles= data['articles']
+
+#removes stop words and splits the headline title into seach terms
+stop_words = set(stopwords.words('english'))
+news_titles = []
+for w in articles:
+    word_tokens = word_tokenize(w["title"])
+    filtered_titles = [w for w in word_tokens if not w in stop_words]
+    filtered_titles = []  
+    for w in word_tokens: 
+        if w not in stop_words: 
+            filtered_titles.append(w)
+    news_titles.append(filtered_titles)
+            
+
+#spotipy init
+credentials = oauth2.SpotifyClientCredentials(
+        client_id='4e0027ebef1c494ba6b3e2fd83e61dc2',
+        client_secret='935e04edca76428796ae333df3b05838')
+
+token = credentials.get_access_token()
+spotify = spotipy.Spotify(auth=token)
+
+#searches the terms in spotify and retrives songs
+songs =[]
+print('Todays Song Recomendations:')
+for title in news_titles:
+    for term in title:
+        song = spotify.search(q=term,limit='1', type='track')['tracks']['items']
+        for s in song:
+            if s['popularity'] > 70:
+                songs.append(s['name'])
+                #songs.append(s['popularity'])
+                #songs.append(s['id'])
+                print('.' + s['name'])
+            else:
+                continue

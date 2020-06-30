@@ -1,0 +1,11 @@
+import spotipy
+import spotipy.oauth2 as oauth2
+
+credentials = oauth2.SpotifyClientCredentials(
+        client_id='4e0027ebef1c494ba6b3e2fd83e61dc2',
+        client_secret='935e04edca76428796ae333df3b05838')
+
+token = credentials.get_access_token()
+spotify = spotipy.Spotify(auth=token)
+results = spotify.search(q='artist:' + 'kanye', type='artist')
+print(results)

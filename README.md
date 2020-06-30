@@ -1,0 +1,2 @@
+# Software-Engineering
+The Software Engineering module of third year Computer Science involved working in a team using agile software development methodologies such as SCRUM. This repository contains the collaborative programming done to create an application that generates track recommendations from Spotify based that days news. As well as this, a report was written independently reflecting on the process and methodologies. A 1st was achieved in this assignment. Lastly, the documentation produced throughout the module lead to an exam result of 90%.
